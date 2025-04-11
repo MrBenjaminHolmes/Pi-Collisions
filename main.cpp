@@ -7,6 +7,7 @@
 #include <iostream>
 #include <cstdlib>
 
+int collisionCount = 0;
 
 
 class Object {
@@ -19,7 +20,7 @@ public:
         this->velocity = velocity;
         this->mass = mass;
     }
-    
+
     void draw()
     {
         double halfside = 30;
@@ -64,25 +65,27 @@ int main() {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glOrtho(0, screenX, screenY, 0, -1, 1);
     std::vector<Object> objs = {
-        Object(std::vector<float>{400.0f,560.0f},std::vector<float>{-4.0f, 0.0f},15.0f)
-        
+        Object(std::vector<float>{400.0f,560.0f},std::vector<float>{0.0f, 0.0f},1.0f),
+        Object(std::vector<float>{700.0f,560.0f},std::vector<float>{-1.0f, 0.0f},1.0f)
+
 
     };
 
     while (!glfwWindowShouldClose(window)) {
-
         glClear(GL_COLOR_BUFFER_BIT);
         for (auto& obj : objs) {
             obj.updatePos();
             obj.draw();
 
             if (obj.position[0] - 30 <= 0) {
-                obj.position[0] = 30;  
+                obj.position[0] = 30;
                 obj.velocity[0] = -obj.velocity[0];
+                collisionCount++;
+                std::cout << "Collision Count = " << collisionCount << std::endl;
             }
-        }
-  
 
+        }
+       
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -91,4 +94,3 @@ int main() {
     glfwTerminate();
     return 0;
 }
-
