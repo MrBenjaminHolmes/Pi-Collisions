@@ -14,7 +14,7 @@ public:
     std::vector<float> position;
     std::vector<float> velocity;
     float mass;
-    bool hasCollided; 
+    bool hasCollided;  // Add a collision flag
     Object(std::vector<float> position, std::vector<float> velocity, float mass = 0.0f)
         : position(position), velocity(velocity), mass(mass), hasCollided(false) {
     }
@@ -83,7 +83,7 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glClear(GL_COLOR_BUFFER_BIT);
 
-       
+        // Reset collision flags at the start of each frame
         for (auto& obj : objs) {
             obj.resetCollisionFlag();
         }
@@ -92,7 +92,7 @@ int main() {
             obj.updatePos();
             obj.draw();
 
-            
+            // Detect boundary collisions
             if (obj.position[0] - 30 <= 0) {
                 obj.position[0] = 30;
                 obj.velocity[0] = -obj.velocity[0];
